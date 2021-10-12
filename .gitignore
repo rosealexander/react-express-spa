@@ -1,0 +1,13 @@
+# dependencies
+/node_modules
+/client/node_modules
+
+# production
+/build
+/client/build
+
+# misc
+.idea
+./client/.idea
+.DS_Store
+.env
