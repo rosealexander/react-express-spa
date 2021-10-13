@@ -1,7 +1,7 @@
 [![MIT License][license-shield]][license-url]
 
-### Heroku + PostgreSQL + Sequelize + Express + React + Material UI
-### PERN MVC SPA baseline 
+### Heroku + PostgreSQL + Prisma + Express + React + Material UI
+### A PERN MVC SPA baseline 
 
 <!-- LICENSE -->
 
