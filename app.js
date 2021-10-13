@@ -25,8 +25,8 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "view", "build", "index.html"));
 });
 
-const listener = app.listen(port, function () {
-    console.log('Listening on port ' + listener.address().port); //Listening on port 5001
+app.listen(process.env.PORT || 5001, function(){
+    console.log(`🚀 server listening on port ${this.address().port} in ${app.settings.env} mode`);
 });
 
 module.exports = app;
