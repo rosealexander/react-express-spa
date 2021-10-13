@@ -1,13 +1,13 @@
 # dependencies
 /node_modules
-/client/node_modules
+/view/node_modules
 
 # production
 /build
-/client/build
+/view/build
 
 # misc
 .idea
-./client/.idea
+./view/.idea
 .DS_Store
 .env
