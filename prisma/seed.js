@@ -4,7 +4,7 @@ const {PrismaClient} = require('@prisma/client')
 
 const prisma = new PrismaClient()
 const pageKey = 'example'
-const Bender_sub = process.env.SEED_EXAMPLE_SUB;
+const Bender_sub = cuid();
 const Soong_sub = cuid();
 const Nordom_sub = cuid();
 
