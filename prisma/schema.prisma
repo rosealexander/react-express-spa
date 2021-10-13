@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+  id          Int        @id @default(autoincrement())
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  sub         String     @unique
+  name        String?
+  registry    Registry?
+  donations   Donation[]
+}
+
+model Registry {
+  id         Int        @id @default(autoincrement())
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  event      Event?
+  wishlist   Wishlist?
+  author     User       @relation(fields: [author_id], references: [id])
+  author_id  Int
+  donations  Donation[]
+  uid        String     @unique @default(cuid())
+}
+
+model Event {
+  id            Int       @id @default(autoincrement())
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  registry      Registry  @relation(fields: [registry_id], references: [id])
+  registry_id   Int
+  date          DateTime?
+  degree        String?
+  accommodation String?
+  image_key     String?
+  university    String?
+}
+
+model Wishlist {
+  id          Int        @id @default(autoincrement())
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  registry    Registry   @relation(fields: [registry_id], references: [id])
+  registry_id Int
+  items       Item[]
+  categories  Category[]
+}
+
+model Donation {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  summary     String?
+  image_key   String?
+  uid         String   @unique @default(cuid())
+  author      User     @relation(fields: [author_id], references: [id])
+  author_id   Int
+  registry    Registry @relation(fields: [registry_id], references: [id])
+  registry_id Int
+  items       Item[]
+}
+
+model Item {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  uid         String    @unique @default(cuid())
+  summary     String
+  wishlist    Wishlist? @relation(fields: [wishlist_id], references: [id])
+  wishlist_id Int?
+  donation    Donation? @relation(fields: [donation_id], references: [id])
+  donation_id Int?
+}
+
+model Category {
+  id         Int        @id @default(autoincrement())
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  summary    String     @unique
+  wishlists  Wishlist[]
+}

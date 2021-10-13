@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
+    "build": "cd view && rm -R build && npm run build",
     "heroku-postbuild": "npm run migrate && npm run seed && cd view && npm install && npm run build"
   },
   "dependencies": {
@@ -12,8 +13,7 @@
     "express": "^4.17.1",
     "helmet": "^4.6",
     "morgan": "^1.10.0",
-    "pg": "^8.7.1",
-    "pg-hstore": "^2.3.4"
+    "prisma": "^3.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
