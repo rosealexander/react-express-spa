@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const express = require('express');
 const app = express();
-const port = 5001;
+const port = process.env.PORT || 5001;
 
 /* middlewares */
 const path = require('path');
@@ -25,7 +25,7 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "view", "build", "index.html"));
 });
 
-app.listen(process.env.PORT || 5001, function(){
+app.listen(port, () => {
     console.log(`🚀 server listening on port ${this.address().port} in ${app.settings.env} mode`);
 });
 
