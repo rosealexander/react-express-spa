@@ -10,6 +10,8 @@
       "heroku-postbuild": "cd src/view && npm install && npm run build && mkdir ../../build/view && cp -r build ../../build/view/build",
       "postinstall": "tsc",
       "remove-build": "rm -r build && cd src/view && rm -r build",
+      "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+      "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
       "start": "NODE_ENV=production node build/index.js"
    },
    "dependencies": {
@@ -24,9 +26,11 @@
       "nodemon": "^2.0.13",
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.10",
-      "typeorm": "0.2.38"
+      "typeorm": "0.2.38",
+      "typeorm-seeding": "^1.6.1"
    },
    "devDependencies": {
+      "@types/faker": "^5.5.9",
       "@types/node": "^16.11.1",
       "ts-node": "^10.3.0",
       "typescript": "^4.4.4"

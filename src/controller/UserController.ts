@@ -1,12 +1,12 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
-import {User} from "../entity/User";
+import {UserEntity} from "../entity/user.entity";
 
 export class UserController {
 
     static all = async (req: Request, res: Response) => {
         //Get users from database
-        const userRepository = getRepository(User);
+        const userRepository = getRepository(UserEntity);
         const users = await userRepository.find();
 
         //Send the users object
