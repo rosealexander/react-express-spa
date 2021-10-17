@@ -1,28 +1,37 @@
 {
-  "name": "react-express-heroku-template",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www",
-    "build": "cd view && rm -R build && npm run build",
-    "heroku-postbuild": "cd view && npm install && npm run build",
-    "migrate": "npx prisma migrate dev --name init",
-    "seed": "npx prisma migrate dev --name init && prisma migrate reset"
-  },
-  "dependencies": {
-    "@prisma/client": "^3.2.1",
-    "debug": "^4.3.2",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "helmet": "^4.6",
-    "morgan": "^1.10.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.13",
-    "prisma": "^3.2.1"
-  },
-  "engines": {
-    "node": ">=15.0.0"
-  }
+   "name": "react-express-spa",
+   "version": "1.0.0",
+   "private": true,
+   "license": "MIT",
+   "author": "Alexander Rose",
+   "scripts": {
+      "dev": "nodemon src/index.ts",
+      "heroku-cleanup": "rm -r src",
+      "heroku-postbuild": "cd src/view && npm install && npm run build && mkdir ../../build/view && cp -r build ../../build/view/build",
+      "postinstall": "tsc",
+      "remove-build": "rm -r build && cd src/view && rm -r build",
+      "start": "NODE_ENV=production node build/index.js"
+   },
+   "dependencies": {
+      "body-parser": "^1.18.1",
+      "cors": "^2.8.5",
+      "dotenv": "^10.0.0",
+      "express": "^4.15.4",
+      "express-jwt": "^6.1.0",
+      "jwks-rsa": "^2.0.5",
+      "morgan": "^1.10.0",
+      "ncp": "^2.0.0",
+      "nodemon": "^2.0.13",
+      "pg": "^8.4.0",
+      "reflect-metadata": "^0.1.10",
+      "typeorm": "0.2.38"
+   },
+   "devDependencies": {
+      "@types/node": "^16.11.1",
+      "ts-node": "^10.3.0",
+      "typescript": "^4.4.4"
+   },
+   "engines": {
+      "node": "16.11.x"
+   }
 }
