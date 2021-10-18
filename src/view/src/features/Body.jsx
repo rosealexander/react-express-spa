@@ -1,8 +1,9 @@
 import {Box, Container, Grid, Typography} from "@mui/material";
-import LoginButton from "./auth/LoginButton";
 import {useAuth0} from "@auth0/auth0-react";
 import {useCallback, useEffect, useState} from "react";
 import Poems from "./poetry/Poems";
+import theme from "./theme";
+import {RiQuillPenLine} from "react-icons/ri";
 
 
 const Body = () => {
@@ -46,7 +47,6 @@ const Body = () => {
                         Loading...
                     </Typography>
                 </Grid>
-
             </Grid>
         )
     }
@@ -70,7 +70,22 @@ const Body = () => {
         )
     }
     else {
-        return null
+        return (
+            <Grid
+                container
+                spacing={0}
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+            >
+                <Grid item xs={3}>
+                    <RiQuillPenLine
+                        color={theme.palette.primary.main}
+                        size='10em'
+                    />
+                </Grid>
+            </Grid>
+        )
     }
 };
 
