@@ -1,8 +1,8 @@
 import { Router, Request, Response } from "express";
-import user from "./user";
+import poem from "./poem";
 
 const indexRouter = Router();
 
-indexRouter.use("/user", user);
+indexRouter.use("/poem", poem);
 
 export default indexRouter;

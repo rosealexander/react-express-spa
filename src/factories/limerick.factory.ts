@@ -1,15 +1,15 @@
 import * as Faker from "faker"
 import {define, factory} from 'typeorm-seeding'
 import { Limerick } from '../entity/limerick.entity'
-import {User} from "../entity/user.entity";
+import {Author} from "../entity/author.entity";
 
 define(Limerick, (faker: typeof Faker) => {
-    const title = faker.random.words(1)
-    const firstLine = faker.random.words(10)
-    const secondLine = faker.random.words(10)
-    const thirdLine = faker.random.words(5)
-    const fourthLine = faker.random.words(5)
-    const fifthLine = faker.random.words(10)
+    const title = faker.random.words(2)
+    const firstLine = faker.random.words(5)
+    const secondLine = faker.random.words(5)
+    const thirdLine = faker.random.words(3)
+    const fourthLine = faker.random.words(3)
+    const fifthLine = faker.random.words(5)
 
     const limerick = new Limerick()
     limerick.title = title;
@@ -19,7 +19,7 @@ define(Limerick, (faker: typeof Faker) => {
     limerick.fourthLine = fourthLine;
     limerick.fifthLine = fifthLine;
 
-    limerick.user = factory(User)() as any
+    limerick.author = factory(Author)() as any
 
     return limerick
 })

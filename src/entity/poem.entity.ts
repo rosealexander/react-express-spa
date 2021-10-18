@@ -1,5 +1,5 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
-import {User} from "./user.entity";
+import {Author} from "./author.entity";
 
 @Entity()
 export abstract class Poem {
@@ -10,6 +10,6 @@ export abstract class Poem {
     @Column()
     title: string;
 
-    @ManyToOne(() => User, user => user.poems)
-    user: User;
+    @ManyToOne(() => Author, author => author.poems)
+    author: Author;
 }

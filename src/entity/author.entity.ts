@@ -2,7 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
 import {Poem} from "./poem.entity";
 
 @Entity()
-export class User {
+export class Author {
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -10,6 +10,6 @@ export class User {
     @Column()
     name: string;
 
-    @OneToMany(() => Poem, poem => poem.user)
+    @OneToMany(() => Poem, poem => poem.author)
     poems: Poem[];
 }
