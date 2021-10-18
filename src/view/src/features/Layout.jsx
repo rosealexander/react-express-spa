@@ -6,7 +6,7 @@ import {Box, Container} from "@mui/material";
 const Layout = () => {
     return (
         <Container
-            maxWidth='xs'
+            maxWidth='sm'
         >
             <Box
                 display='flex'

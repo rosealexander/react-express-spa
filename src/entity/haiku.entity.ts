@@ -1,18 +1,19 @@
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Poem} from "./poem.entity";
 
 @Entity()
-export class User {
+export class Haiku extends Poem {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    firstName: string;
+    firstLine: string;
 
     @Column()
-    lastName: string;
+    secondLine: string;
 
     @Column()
-    age: number;
+    thirdLine: string;
 
 }
