@@ -25,9 +25,11 @@
       "ncp": "^2.0.0",
       "nodemon": "^2.0.13",
       "pg": "^8.4.0",
-      "reflect-metadata": "^0.1.10",
+      "reflect-metadata": "^0.1.13",
+      "typedi": "^0.10.0",
       "typeorm": "0.2.38",
-      "typeorm-seeding": "^1.6.1"
+      "typeorm-seeding": "^1.6.1",
+      "typeorm-typedi-extensions": "^0.4.1"
    },
    "devDependencies": {
       "@types/faker": "^5.5.9",

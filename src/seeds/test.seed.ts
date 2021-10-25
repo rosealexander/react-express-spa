@@ -5,7 +5,7 @@ import {Limerick} from "../entity/limerick.entity";
 
 export default class CreatePoems implements Seeder {
     public async run(factory: Factory, connection: Connection): Promise<any> {
-        await factory(Haiku)().createMany(3)
-        await factory(Limerick)().createMany(3)
+        await factory(Haiku)().createMany(2)
+        await factory(Limerick)().createMany(2)
     }
 }

@@ -1,4 +1,4 @@
-import {PoemController} from "../controller/PoemController";
+import {PoemController} from "../controller/poem.controller";
 import {Router} from "express";
 import * as checkJwt from "../middleware/checkJwt";
 
