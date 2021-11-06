@@ -14,16 +14,19 @@ function App() {
 
     const setInterceptor = useCallback( async () => {
         const accessToken = await getAccessTokenSilently();
+        /* set axios request interceptor */
         axios.interceptors.request.use(config => {
             config.headers.Authorization = `Bearer ${accessToken}`;
             return config;
         });
         setIsAuth(true)
-    }, [isAuthenticated, getAccessTokenSilently])
+    }, [getAccessTokenSilently])
 
-    useEffect( async () => {
-        await setInterceptor()
-    }, [setInterceptor])
+    useEffect(  () => {
+        if (isAuthenticated) {
+            setInterceptor().then()
+        }
+    }, [setInterceptor, isAuthenticated])
 
     return (
         <ThemeProvider theme={theme}>
