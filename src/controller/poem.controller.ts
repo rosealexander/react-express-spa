@@ -9,8 +9,8 @@ export class PoemController {
 
     static all = async (req: Request, res: Response) => {
 
-        const poetryService = Container.get(PoemService)
-        const poetry = await poetryService.findAll()
+        const poemService = Container.get(PoemService)
+        const poetry = await poemService.findAll()
 
         const poetryVm = new PoetryVm(
             poetry.map( poem => {
