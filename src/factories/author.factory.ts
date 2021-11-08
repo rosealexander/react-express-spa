@@ -4,11 +4,11 @@ import {Author} from '../entity/author.entity'
 import {Service} from "typedi";
 import {InjectRepository} from "typeorm-typedi-extensions";
 import {Repository} from "typeorm";
-import {PoemFactory} from "./poem.factory";
+import {PoetryFactory} from "./poetry.factory";
 
 
 @Service()
-export class AuthorFactory extends PoemFactory {
+export class AuthorFactory extends PoetryFactory {
     public run(): Promise<Author> {
         const firstName = faker.name.firstName()
         const lastName = faker.name.lastName()
