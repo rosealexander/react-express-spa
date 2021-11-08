@@ -43,7 +43,7 @@ const Prompt = () => {
                     authorId: newAuthor.id,
                     poemType: poetryType
                 }
-                const generatePoemRes = await axios.post('poetry/generate', params)
+                const generatePoemRes = await axios.post('poem/generate', params)
                 const newPoem = generatePoemRes.data
 
                 setAuthors([newAuthor, ...authors])
@@ -55,7 +55,7 @@ const Prompt = () => {
                     authorId: authorId,
                     poemType: poetryType
                 }
-                const generatePoemRes = await axios.post('poetry/generate', params)
+                const generatePoemRes = await axios.post('poem/generate', params)
                 const newPoem = generatePoemRes.data
 
                 setPoetry([newPoem, ...poetry])
@@ -82,7 +82,7 @@ const Prompt = () => {
     const handleRemovePoetry = async () => {
         setIsLoading(true)
         try {
-            await axios.delete('poetry/clear')
+            await axios.delete('poem/clear')
             setPoetry([])
             setAuthors([])
             setAuthorSelect('')
