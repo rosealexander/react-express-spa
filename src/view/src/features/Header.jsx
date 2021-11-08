@@ -2,8 +2,9 @@ import {AppBar, Grid, Typography} from "@mui/material";
 import {useAuth0} from "@auth0/auth0-react";
 import LogoutButton from "./auth/LogoutButton";
 import LoginButton from "./auth/LoginButton";
+import {memo} from "react";
 
-const Header = () => {
+const Header = memo(() => {
     const { user, isLoading, isAuthenticated } = useAuth0();
 
     if (isAuthenticated)
@@ -62,6 +63,6 @@ const Header = () => {
             </AppBar>
         )
     }
-};
+})
 
 export default Header;
