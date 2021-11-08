@@ -8,7 +8,7 @@ export const PoetryContext = createContext([])
 
 const fetchPoemsApi = () => {
     return new Promise(async (resolve, reject) => {
-        await axios.get('/poetry/all')
+        await axios.get('/poem/all')
             .then(async res => resolve(await res.data))
             .catch(error => reject(error))
     })
