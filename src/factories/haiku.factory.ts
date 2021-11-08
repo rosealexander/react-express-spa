@@ -1,21 +1,27 @@
-import * as Faker from "faker"
-import {define, factory} from 'typeorm-seeding'
+// filename: haiku.factory.ts
+import * as faker from "faker"
 import { Haiku } from '../entity/haiku.entity'
-import {Author} from "../entity/author.entity";
+import {Service} from "typedi";
+import {PoetryFactory} from "./poetry.factory";
+import {InjectRepository} from "typeorm-typedi-extensions";
+import {Repository} from "typeorm";
 
-define(Haiku, (faker: typeof Faker) => {
-    const title = faker.random.words(2)
-    const firstLine = faker.random.words(3)
-    const secondLine = faker.random.words(5)
-    const thirdLine = faker.random.words(3)
 
-    const haiku = new Haiku()
-    haiku.title = title;
-    haiku.firstLine = firstLine;
-    haiku.secondLine = secondLine;
-    haiku.thirdLine = thirdLine;
+@Service()
+export class HaikuFactory extends PoetryFactory {
+    public run(): Promise<Haiku> {
+        const title = faker.random.words(2)
+        const firstLine = faker.random.words(3)
+        const secondLine = faker.random.words(5)
+        const thirdLine = faker.random.words(3)
 
-    haiku.author = factory(Author)() as any
+        const haiku = this.repository.create()
+        haiku.title = title;
+        haiku.firstLine = firstLine;
+        haiku.secondLine = secondLine;
+        haiku.thirdLine = thirdLine;
 
-    return haiku
-})
+        return this.repository.save(haiku)
+    }
+    constructor(@InjectRepository(Haiku) private repository: Repository<Haiku>){super()}
+}

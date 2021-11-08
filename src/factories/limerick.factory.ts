@@ -1,25 +1,32 @@
-import * as Faker from "faker"
-import {define, factory} from 'typeorm-seeding'
+// filename: limerick.factory.ts
+import * as faker from "faker"
 import { Limerick } from '../entity/limerick.entity'
-import {Author} from "../entity/author.entity";
+import {Service} from "typedi";
+import {PoetryFactory} from "./poetry.factory";
+import {InjectRepository} from "typeorm-typedi-extensions";
+import {Repository} from "typeorm";
 
-define(Limerick, (faker: typeof Faker) => {
-    const title = faker.random.words(2)
-    const firstLine = faker.random.words(5)
-    const secondLine = faker.random.words(5)
-    const thirdLine = faker.random.words(3)
-    const fourthLine = faker.random.words(3)
-    const fifthLine = faker.random.words(5)
 
-    const limerick = new Limerick()
-    limerick.title = title;
-    limerick.firstLine = firstLine;
-    limerick.secondLine = secondLine;
-    limerick.thirdLine = thirdLine;
-    limerick.fourthLine = fourthLine;
-    limerick.fifthLine = fifthLine;
+@Service()
+export class LimerickFactory extends PoetryFactory {
+    public run(): Promise<Limerick> {
+        const title = faker.random.words(2)
+        const firstLine = faker.random.words(5)
+        const secondLine = faker.random.words(5)
+        const thirdLine = faker.random.words(3)
+        const fourthLine = faker.random.words(3)
+        const fifthLine = faker.random.words(5)
 
-    limerick.author = factory(Author)() as any
+        const limerick = this.repository.create()
+        limerick.title = title;
+        limerick.firstLine = firstLine;
+        limerick.secondLine = secondLine;
+        limerick.thirdLine = thirdLine;
+        limerick.fourthLine = fourthLine;
+        limerick.fifthLine = fifthLine;
 
-    return limerick
-})
+        return this.repository.save(limerick)
+    }
+    constructor(@InjectRepository(Limerick) private repository: Repository<Limerick>){super()}
+}
+

@@ -1,7 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import {Button} from "@mui/material";
+import {memo} from "react";
 
-const LogoutButton = ({disabled}) => {
+const LogoutButton = memo(({disabled}) => {
     const { logout } = useAuth0();
 
     return (
@@ -13,7 +14,7 @@ const LogoutButton = ({disabled}) => {
         >
             Log Out
         </Button>
-    );
-};
+    )
+})
 
 export default LogoutButton;

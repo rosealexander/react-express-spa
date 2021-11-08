@@ -8,6 +8,8 @@ import * as path from "path";
 import * as logger from "morgan";
 import * as cors from "cors";
 import * as process from "process";
+import * as swaggerUi from 'swagger-ui-express';
+import * as swaggerJSDoc from 'swagger-jsdoc';
 import indexRouter from "./routes/index";
 
 import { createConnection, useContainer } from 'typeorm';
@@ -38,6 +40,21 @@ createConnection()
 
         /* register express routes */
         app.use('/', indexRouter);
+
+        /* setup Swagger */
+        const options = {
+            swaggerDefinition: {
+                info: {
+                    title: 'REST API',
+                    version: '1.0.0',
+                    description: 'Example docs',
+                },
+            },
+            apis: ['swagger.yaml'],
+        };
+
+        const specs = swaggerJSDoc(options);
+        app.use('/swagger', swaggerUi.serve, swaggerUi.setup(specs));
 
         /* Get Express app to serve React app */
         app.use(express.static(path.join(__dirname, "view", "build")))

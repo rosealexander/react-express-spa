@@ -1,15 +1,11 @@
 import {Box, Grid, Paper, Typography} from "@mui/material";
 import React from "react";
-import theme from "./theme";
 
 const Poem = ({poem = {}}) => {
     const {title, author, content} = poem
 
     return (
-        <Paper
-            variant='outlined'
-            sx={{borderColor: theme.palette.primary.main}}
-        >
+        <Paper>
             <Box px={3} py={5}>
                 <Grid
                     container
@@ -27,6 +23,7 @@ const Poem = ({poem = {}}) => {
                                 <Typography
                                     variant='h5'
                                     align='center'
+                                    color='primary'
                                 >
                                     {title}
                                 </Typography >
