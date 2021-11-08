@@ -14,6 +14,7 @@ function App() {
 
     const setInterceptor = useCallback( async () => {
         const accessToken = await getAccessTokenSilently();
+        console.log(accessToken)
         /* set axios request interceptor */
         axios.interceptors.request.use(config => {
             config.headers.Authorization = `Bearer ${accessToken}`;
