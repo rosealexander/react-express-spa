@@ -2,15 +2,13 @@
 import {Inject, Service} from 'typedi';
 import {InjectRepository} from 'typeorm-typedi-extensions';
 import {Repository} from "typeorm";
-import {PoemService} from "./poem.service";
+import {PoetryService} from "./poetry.service";
 import {Limerick} from "../entity/limerick.entity";
 import {LimerickFactory} from "../factories/limerick.factory";
-import {Author} from "../entity/author.entity";
-import {Haiku} from "../entity/haiku.entity";
 
 
 @Service()
-export class LimerickService extends PoemService{
+export class LimerickService extends PoetryService{
 
     public find(id: number): Promise<Limerick> {
         return this.repository.findOne(id);
