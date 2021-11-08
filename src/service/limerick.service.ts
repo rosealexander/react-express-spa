@@ -15,7 +15,7 @@ export class LimerickService extends PoetryService{
     }
 
     public findAll(): Promise<Limerick[]> {
-        return this.repository.find({ relations: ["author"] });
+        return this.repository.find({ relations: ["author"], take: 30, order: {created_at: "DESC"} });
     }
 
     public async removeAll(): Promise<Limerick[]> {
