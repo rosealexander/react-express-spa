@@ -1,0 +1,65 @@
+openapi: 3.0.0
+
+securityDefinitions:
+  bearerAuth:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter your bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+# [GET] authors/all
+  /author/all:
+    get:
+      security:
+        - bearerAuth: [ ]
+      summary: Find All Authors
+      responses:
+        '200':
+          description: A list of Authors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The author ID.
+                  name:
+                    type: string
+                    description: The author name.
+
+# [POST] authors/generate
+  /author/generate:
+    post:
+      security:
+        - bearerAuth: [ ]
+      summary: Add Author
+
+# [GET] poetry/all
+  /poetry/all:
+    get:
+      security:
+        - bearerAuth: [ ]
+      summary: Find all poetry
+
+# [POST] poetry/generate
+  /poetry/generate:
+    post:
+      security:
+        - bearerAuth: [ ]
+      summary: Create new poem
+
+# [DELETE] poetry/clear
+  /poetry/clear:
+    delete:
+      security:
+        - bearerAuth: [ ]
+      summary: Clear all Poems and Authors
+
+schemes:
+ - https
+ - http
