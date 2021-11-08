@@ -1,13 +1,22 @@
-import * as Faker from "faker"
-import { define } from 'typeorm-seeding'
-import { Author } from '../entity/author.entity'
+// filename: author.factory.ts
+import * as faker from "faker"
+import {Author} from '../entity/author.entity'
+import {Service} from "typedi";
+import {InjectRepository} from "typeorm-typedi-extensions";
+import {Repository} from "typeorm";
+import {PoemFactory} from "./poem.factory";
 
-define(Author, (faker: typeof Faker) => {
-    const firstName = faker.name.firstName()
-    const lastName = faker.name.lastName()
 
-    const user = new Author()
-    user.name = `${firstName} ${lastName}`;
+@Service()
+export class AuthorFactory extends PoemFactory {
+    public run(): Promise<Author> {
+        const firstName = faker.name.firstName()
+        const lastName = faker.name.lastName()
 
-    return user
-})
+        const author = this.repository.create()
+        author.name = `${firstName} ${lastName}`
+
+        return this.repository.save(author)
+    }
+    constructor(@InjectRepository(Author) private repository: Repository<Author>){super()}
+}
