@@ -1,8 +1,14 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn} from "typeorm";
 import {Author} from "./author.entity";
 
 @Entity()
 export abstract class Poem {
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 
     @PrimaryGeneratedColumn()
     id: number;

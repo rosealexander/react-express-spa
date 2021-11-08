@@ -16,7 +16,7 @@ const Footer = () => {
                         color="textSecondary"
                         display='inline'
                     >
-                        MIT License (c) 2021
+                        Alexander Rose (c) 2021
                     </Typography>
                 </Grid>
                 <Grid item>

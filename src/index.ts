@@ -1,6 +1,6 @@
+import 'reflect-metadata';
 import 'dotenv/config'
 import "reflect-metadata";
-import {createConnection} from "typeorm";
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import * as http from 'http'
@@ -10,11 +10,16 @@ import * as cors from "cors";
 import * as process from "process";
 import indexRouter from "./routes/index";
 
+import { createConnection, useContainer } from 'typeorm';
+import { Container } from 'typeorm-typedi-extensions';
 
+useContainer(Container);
+
+/** Create a connection and start using TypeORM. */
 createConnection()
     .then(async connection => {
 
-        // create express app
+        /* create express app */
         const app = express();
 
         app.use(logger('dev'));
@@ -22,10 +27,10 @@ createConnection()
         app.use(express.urlencoded({ extended: false }));
         app.use(express.static(path.join(__dirname, 'public')));
 
-        // Enable CORS
+        /* Enable CORS */
         app.use(cors());
 
-        // Enable the use of request body parsing middleware
+        /* Enable the use of request body parsing middleware */
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({
             extended: true
@@ -53,16 +58,8 @@ createConnection()
         const bind = typeof addr === 'string' ? 'PIPE:' + addr : 'PORT:' + addr.port;
         console.log(`🚀🌛 Listening on ${bind} `);
 
-        // // insert new users for test
-        // await connection.manager.save(connection.manager.create(User, {
-        //     firstName: "Timber",
-        //     lastName: "Saw",
-        //     age: 27
-        // }));
-        // await connection.manager.save(connection.manager.create(User, {
-        //     firstName: "Phantom",
-        //     lastName: "Assassin",
-        //     age: 24
-        // }));
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+            console.error(`Couldn't connect to the database!`);
+            console.error(error);
+    });

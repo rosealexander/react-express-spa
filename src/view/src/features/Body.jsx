@@ -1,34 +1,32 @@
 import {Box, Container, Grid, Typography} from "@mui/material";
-import LoginButton from "./auth/LoginButton";
 import {useAuth0} from "@auth0/auth0-react";
-import {useCallback, useEffect, useState} from "react";
-import Poems from "./poetry/Poems";
+import {useContext, useEffect, useState} from "react";
+import theme from "./theme";
+import {RiQuillPenLine} from "react-icons/ri";
+import Poem from "./Poem";
+import axios from "../axios";
+import {AuthContext} from "../App";
+
+
+const fetchPoemsApi = () => {
+    return new Promise(async (resolve, reject) => {
+        await axios('/poem/all')
+            .then(async res => resolve(await res.data))
+            .catch(error => reject(error))
+    })
+}
 
 
 const Body = () => {
-    const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-    const [poems, setPoems] = useState({});
+    const { isLoading } = useAuth0();
+    const [isAuth] = useContext(AuthContext)
+    const [poetry, setPoetry] = useState([]);
 
-    const fetchPoemsApi = useCallback(async () =>
-        {
-            if (isAuthenticated) {
-                const accessToken = await getAccessTokenSilently();
-                const res = await fetch('/poem/all', {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                })
-                return await res.json()
-            }
-        }, [isAuthenticated, getAccessTokenSilently],
-    );
-    
-    
-    useEffect( () => {
-        fetchPoemsApi()
-            .then(poetry => setPoems(poetry))
-    }, [fetchPoemsApi]);
-
+    useEffect(() => {
+        if (isAuth) {
+            fetchPoemsApi().then(res => setPoetry(res.poetry))
+        }
+    }, [isAuth])
 
     if (isLoading) {
         return (
@@ -46,11 +44,10 @@ const Body = () => {
                         Loading...
                     </Typography>
                 </Grid>
-
             </Grid>
         )
     }
-    else if (isAuthenticated){
+    else if (isAuth){
         return (
             <Box py={5}>
                 <Container
@@ -61,16 +58,55 @@ const Body = () => {
                         direction='column'
                         spacing={5}
                     >
-                        <Grid item>
-                            <Poems poems={poems}/>
-                        </Grid>
+                        {poetry?.map( (poem, i) => [
+                            <Grid
+                                item
+                                key={i}
+                            >
+                                <Poem poem={poem} />
+                            </Grid>
+                        ])}
                     </Grid>
                 </Container>
             </Box>
         )
     }
     else {
-        return null
+        return (
+            <Grid
+                container
+                spacing={1}
+                direction="column"
+                alignItems='center'
+                justifyContent="center"
+            >
+                <Grid item>
+                    <RiQuillPenLine
+                        color={theme.palette.primary.main}
+                        size='8em'
+                    />
+                </Grid>
+                <Grid item>
+                    <Typography
+                        variant='h3'
+                        color='primary'
+                    >
+                        Single&nbsp;Page
+                        <br />
+                        Application
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <Typography
+                        variant='caption'
+                        color='primary'
+                        sx={{fontWeight: "bold"}}
+                    >
+                        React&nbsp;+&nbsp;Express.js&nbsp;+&nbsp;TypeORM&nbsp;+&nbsp;Auth0
+                    </Typography>
+                </Grid>
+            </Grid>
+        )
     }
 };
 
