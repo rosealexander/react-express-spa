@@ -15,7 +15,7 @@ export class AuthorService extends PoetryService {
     }
 
     public findAll(): Promise<Author[]> {
-        return this.repository.find();
+        return this.repository.find({take: 30});
     }
 
     public async removeAll(): Promise<Author[]> {
