@@ -19,7 +19,7 @@ paths:
       summary: Find All Authors
       responses:
         '200':
-          description: A list of Authors
+          description: AuthorViewModel list
           content:
             application/json:
               schema:
@@ -31,6 +31,8 @@ paths:
                   name:
                     type: string
                     description: The author name.
+        '404':
+          description: Not found
 
 # [POST] authors/generate
   /author/generate:
@@ -38,27 +40,105 @@ paths:
       security:
         - bearerAuth: [ ]
       summary: Add Author
+      responses:
+        '201':
+          description: Author is created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: The author ID.
+                  name:
+                    type: string
+                    description: The author name.
+        '400':
+          description: Bad request
+        '500':
+          description: Server error
+
 
 # [GET] poetry/all
-  /poetry/all:
+  /poem/all:
     get:
       security:
         - bearerAuth: [ ]
       summary: Find all poetry
+      responses:
+        '200':
+          description: PoemViewModel list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  author:
+                    type: string
+                    description: The poem author name.
+                  content:
+                    type: string[]
+                    description: Poem content.
+                  title:
+                    type: string
+                    description: Poem title.
+        '404':
+          description: Not found
 
 # [POST] poetry/generate
-  /poetry/generate:
+  /poem/generate:
     post:
       security:
         - bearerAuth: [ ]
       summary: Create new poem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authorId:
+                  type: string
+                  description: The poem author id.
+                  example: 1
+                poemType:
+                  type: string
+                  description: haiku or limerick.
+                  example: haiku
+      responses:
+        '201':
+          description: A Poem is created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  author:
+                    type: string
+                    description: The poem author name.
+                  content:
+                    type: string[]
+                    description: Poem content.
+                  title:
+                    type: string
+                    description: Poem title.
+        '400':
+          description: Bad request
+        '500':
+          description: Server error
 
 # [DELETE] poetry/clear
-  /poetry/clear:
+  /poem/clear:
     delete:
       security:
         - bearerAuth: [ ]
       summary: Clear all Poems and Authors
+      '200':
+        description: Ok
+      '500':
+        description: Server error
 
 schemes:
  - https
