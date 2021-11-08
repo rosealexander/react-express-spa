@@ -206,7 +206,7 @@ const Prompt = () => {
                                                 defaultValue=""
                                                 onChange={handleAuthorChange}
                                             >
-                                                {authors.sort().map(author =>
+                                                {authors.sort().reverse().map(author =>
                                                     <MenuItem
                                                         key={author.id}
                                                         value={author.name}
