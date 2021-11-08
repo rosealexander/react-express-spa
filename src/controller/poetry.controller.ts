@@ -1,7 +1,7 @@
 // filename: poetry.controller.ts
 import {Request, Response} from "express";
 import {PoemViewModel} from "../ViewModel/PoemViewModel";
-import {PoetryService} from "../service/poetry.service";
+import {PoemService} from "../service/poem.service";
 import {Container} from "typedi";
 
 
@@ -9,9 +9,9 @@ export class PoetryController {
 
     static all = async (req: Request, res: Response) => {
         try {
-            const poemService = Container.get(PoetryService)
-            const poetry = await poemService.findAll()
-            const poemArray = poetry.map( poem => {
+            const poemService = Container.get(PoemService)
+            const poems = await poemService.findAll()
+            const poemArray = poems.map( poem => {
                 // @ts-ignore
                 const {title, author, firstLine, secondLine, thirdLine, fourthLine, fifthLine} = poem
                 const {name} = author
@@ -28,8 +28,8 @@ export class PoetryController {
 
     static clear = async (req: Request, res: Response) => {
         try {
-            const poetryService = Container.get(PoetryService)
-            await poetryService.removeAll()
+            const poemService = Container.get(PoemService)
+            await poemService.removeAll()
             res.status(200).end()
         }
         catch (error) {
@@ -41,15 +41,15 @@ export class PoetryController {
     static generate = async (req: Request, res: Response) => {
         const {authorId, poemType} = req.body
         try {
-            const poetryService = Container.get(PoetryService)
+            const poemService = Container.get(PoemService)
             if (poemType === 'haiku') {
-                const generatedHaiku = await poetryService.generateHaiku(authorId)
+                const generatedHaiku = await poemService.generateHaiku(authorId)
                 const {title, author, firstLine, secondLine, thirdLine} = generatedHaiku
                 const content = [firstLine, secondLine, thirdLine]
                 res.status(201).send(new PoemViewModel(author.name, content, title));
             }
             else if (poemType === 'limerick') {
-                const generatedLimerick = await poetryService.generateLimerick(authorId)
+                const generatedLimerick = await poemService.generateLimerick(authorId)
                 const {title, author, firstLine, secondLine, thirdLine, fourthLine, fifthLine} = generatedLimerick
                 const content = [firstLine, secondLine, thirdLine, fourthLine, fifthLine]
                 res.status(201).send(new PoemViewModel(author.name, content, title));
