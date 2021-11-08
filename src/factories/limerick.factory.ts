@@ -2,13 +2,13 @@
 import * as faker from "faker"
 import { Limerick } from '../entity/limerick.entity'
 import {Service} from "typedi";
-import {PoemFactory} from "./poem.factory";
+import {PoetryFactory} from "./poetry.factory";
 import {InjectRepository} from "typeorm-typedi-extensions";
 import {Repository} from "typeorm";
 
 
 @Service()
-export class LimerickFactory extends PoemFactory {
+export class LimerickFactory extends PoetryFactory {
     public run(): Promise<Limerick> {
         const title = faker.random.words(2)
         const firstLine = faker.random.words(5)
