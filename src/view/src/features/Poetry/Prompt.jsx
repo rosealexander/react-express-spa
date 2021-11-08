@@ -238,7 +238,7 @@ const Prompt = () => {
                                             variant='caption'
                                             display='inline'
                                         >
-                                            &nbsp;to select yet, are you ready to generate a totally new and random
+                                            &nbsp;to select yet, are you ready to generate a
                                         </Typography>
                                         <Typography
                                             variant='caption'
@@ -246,7 +246,7 @@ const Prompt = () => {
                                             color='primary'
                                             sx={{fontWeight: "bold"}}
                                         >
-                                            &nbsp;author
+                                            &nbsp;totally new and random author
                                         </Typography>
                                         <Typography
                                             variant='caption'
@@ -314,7 +314,7 @@ const Prompt = () => {
                                             variant='caption'
                                             display='inline'
                                         >
-                                            &nbsp;by some totally new and randomly created
+                                            &nbsp;by some
                                         </Typography>
                                         <Typography
                                             variant='caption'
@@ -322,7 +322,7 @@ const Prompt = () => {
                                             color='primary'
                                             sx={{fontWeight: "bold"}}
                                         >
-                                            &nbsp;author
+                                            &nbsp;totally new and randomly created author
                                         </Typography>
                                         <Typography
                                             variant='caption'
@@ -378,19 +378,22 @@ const Prompt = () => {
                                     </Typography>
                                     <Divider />
                                 </Grid>
-                                <Grid item>
-                                    <Typography
-                                        variant='caption'
-                                        display='inline'
-                                    >
-                                        Are you sure that you really want to remove all poems and authors? This action cannot be undone!
-                                    </Typography>
-                                </Grid>
+                                {!!poetry.length &&
+                                    <Grid item>
+                                        <Typography
+                                            variant='caption'
+                                            display='inline'
+                                        >
+                                            Are you sure that you really want to remove all poems and authors? This action
+                                            cannot be undone!
+                                        </Typography>
+                                    </Grid>
+                                }
                                 <Grid item>
                                     <Box py={2}>
                                         <Button
                                             fullWidth
-                                            disabled={isLoading}
+                                            disabled={isLoading || !poetry.length}
                                             variant='outlined'
                                             color='primary'
                                             onClick={handleRemovePoetry}
