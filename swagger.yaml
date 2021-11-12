@@ -61,7 +61,7 @@ paths:
 
 
 # [GET] poetry/all
-  /poem/all:
+  /poetry/all:
     get:
       security:
         - bearerAuth: [ ]
@@ -86,14 +86,13 @@ paths:
         '404':
           description: Not found
 
-# [POST] poetry/generate
-  /poem/generate:
+# [POST] poetry/haiku
+  /poetry/haiku:
     post:
       security:
         - bearerAuth: [ ]
-      summary: Create new poem
+      summary: Generate new Haiku
       requestBody:
-        required: true
         content:
           application/json:
             schema:
@@ -101,12 +100,42 @@ paths:
               properties:
                 authorId:
                   type: string
-                  description: The poem author id.
-                  example: 1
-                poemType:
+      responses:
+        '201':
+          description: A Poem is created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  author:
+                    type: string
+                    description: The poem author name.
+                  content:
+                    type: string[]
+                    description: Poem content.
+                  title:
+                    type: string
+                    description: Poem title.
+        '400':
+          description: Bad request
+        '500':
+          description: Server error
+
+  # [POST] poetry/limerick
+  /poetry/limerick:
+    post:
+      security:
+        - bearerAuth: [ ]
+      summary: Generate new Limerick
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                authorId:
                   type: string
-                  description: haiku or limerick.
-                  example: haiku
       responses:
         '201':
           description: A Poem is created
@@ -130,11 +159,11 @@ paths:
           description: Server error
 
 # [DELETE] poetry/clear
-  /poem/clear:
+  /poetry/clear:
     delete:
       security:
         - bearerAuth: [ ]
-      summary: Clear all Poems and Authors
+      summary: Clear all Poems and Authors, must be 'Administrator' role
       '200':
         description: Ok
       '500':

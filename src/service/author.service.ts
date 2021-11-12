@@ -1,14 +1,18 @@
 // filename: author.service.ts
 import {InjectRepository} from 'typeorm-typedi-extensions';
-import {Inject, Service} from 'typedi';
-import {Author} from '../entity/author.entity';
-import {PoetryService} from "./poetry.service";
+import {Service} from 'typedi';
+import {Author} from '../model/author.entity';
 import {Repository} from "typeorm";
-import {AuthorFactory} from "../factories/author.factory";
 
 
 @Service()
-export class AuthorService extends PoetryService {
+export class AuthorService {
+
+    public create(name: string): Promise<Author> {
+        const author = this.repository.create()
+        author.name = name;
+        return this.repository.save(author)
+    }
 
     public find(id: number): Promise<Author> {
         return this.repository.findOne(id);
@@ -23,12 +27,5 @@ export class AuthorService extends PoetryService {
         return this.repository.remove(list);
     }
 
-    public generate(): Promise<Author> {
-        return this.authorFactory.run()
-    }
-
-    constructor(
-        @InjectRepository(Author) private repository: Repository<Author>,
-        @Inject() private authorFactory: AuthorFactory
-    ) {super()}
+    constructor(@InjectRepository(Author) private repository: Repository<Author>,) {}
 }

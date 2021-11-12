@@ -1,6 +1,6 @@
 // filename: author.controller.ts
 import {Request, Response} from "express";
-import {AuthorViewModel} from "../ViewModel/AuthorViewModel";
+import {AuthorViewModel} from "../viewmodel/AuthorViewModel";
 import {AuthorService} from "../service/author.service";
 import {Container} from "typedi";
 
@@ -23,15 +23,16 @@ export class AuthorController {
     }
 
 
-    static generate = async (req: Request, res: Response) => {
+    static create = async (req: Request, res: Response) => {
         try {
+            const {name} = req.body
             const authorService = Container.get(AuthorService)
-            const generatedAuthor = await authorService.generate()
-            const authorViewModel = new AuthorViewModel(generatedAuthor.id, generatedAuthor.name)
-
+            const newAuthor = await authorService.create(name)
+            const authorViewModel = new AuthorViewModel(newAuthor.id, newAuthor.name)
             res.status(201).send(authorViewModel);
         }
         catch (error) {
+            console.log(error)
             res.status(500).end()
         }
     }

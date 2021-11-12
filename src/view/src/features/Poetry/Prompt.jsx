@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import {BottomNavigation, BottomNavigationAction, Box, Button, Divider, FormControl, Grid, InputLabel, MenuItem, Paper, Select, Typography} from "@mui/material";
+import {BottomNavigation, BottomNavigationAction, Box, Button, Divider, FormControl, Grid, InputLabel, MenuItem, Paper, Select, TextField, Typography} from "@mui/material";
 import {RiQuillPenFill, RiQuillPenLine} from "react-icons/ri";
 import {IoPersonCircle, IoPersonCircleOutline} from "react-icons/io5";
 import axios from "../../axios";
@@ -13,6 +13,7 @@ const Prompt = () => {
     const [poetryType, setPoetryType] = useState("haiku")
     const [authorType, setAuthorType] = useState("select")
     const [authorSelect, setAuthorSelect] = useState("")
+    const [newAuthorName, setNewAuthorName] = useState("")
     const [isLoading, setIsLoading] = useState(false)
 
     const handlePromptTypeChange = (event, value) => {
@@ -35,19 +36,27 @@ const Prompt = () => {
     const handleGeneratePoetry = async () => {
         setIsLoading(true)
         try {
-            if (authorType === 'generate'){
-                const generateAuthorRes = await axios.post('author/generate')
-                const newAuthor = generateAuthorRes.data
-
-                const params = {
-                    authorId: newAuthor.id,
-                    poemType: poetryType
-                }
-                const generatePoemRes = await axios.post('poem/generate', params)
-                const newPoem = generatePoemRes.data
-
+            if (authorType === 'new'){
+                const createAuthorRes = await axios.post('author/create', {name: newAuthorName})
+                const newAuthor = createAuthorRes.data
                 setAuthors([newAuthor, ...authors])
-                setPoetry([newPoem, ...poetry])
+
+                if (poetryType === 'haiku') {
+                    const generateHaikuRes = await axios.post('poetry/haiku', {
+                        authorId: newAuthor.id,
+                        poemType: poetryType
+                    })
+                    const newPoem = generateHaikuRes.data
+                    setPoetry([newPoem, ...poetry])
+                }
+                else if (poetryType === 'limerick') {
+                    const generateLimerickRes = await axios.post('poetry/limerick', {
+                        authorId: newAuthor.id,
+                        poemType: poetryType
+                    })
+                    const newPoem = generateLimerickRes.data
+                    setPoetry([newPoem, ...poetry])
+                }
             }
             else if (authorType === 'select'){
                 const authorId = (authors.find(author => author.name === authorSelect)).id
@@ -55,24 +64,19 @@ const Prompt = () => {
                     authorId: authorId,
                     poemType: poetryType
                 }
-                const generatePoemRes = await axios.post('poem/generate', params)
-                const newPoem = generatePoemRes.data
 
-                setPoetry([newPoem, ...poetry])
+                if (poetryType === 'haiku') {
+                    const generatePoemRes = await axios.post('poetry/haiku', params)
+                    const newPoem = generatePoemRes.data
+                    setPoetry([newPoem, ...poetry])
+                }
+                else if (poetryType === 'limerick') {
+                    const generatePoemRes = await axios.post('poetry/limerick', params)
+                    const newPoem = generatePoemRes.data
+                    setPoetry([newPoem, ...poetry])
+                }
                 setAuthorSelect("")
             }
-        }
-        finally {
-            setIsLoading(false)
-        }
-    }
-
-    const handleGenerateAuthor = async () => {
-        setIsLoading(true)
-        try {
-            const generateAuthorRes = await axios.post('author/generate')
-            const newAuthor = generateAuthorRes.data
-            setAuthors([newAuthor, ...authors])
         }
         finally {
             setIsLoading(false)
@@ -82,7 +86,7 @@ const Prompt = () => {
     const handleRemovePoetry = async () => {
         setIsLoading(true)
         try {
-            await axios.delete('poem/clear')
+            await axios.delete('poetry/clear')
             setPoetry([])
             setAuthors([])
             setAuthorSelect('')
@@ -121,14 +125,14 @@ const Prompt = () => {
                                 value="generate"
                             />
                             <BottomNavigationAction
-                                label={ promptType === "remove" ?
+                                label={ promptType === "administrator" ?
                                     <Typography
                                         sx={{fontWeight: "bold"}}
                                         color='primary'
                                     >
-                                        Remove&nbsp;all&nbsp;Poetry
+                                        Administrator
                                     </Typography>
-                                    : "Remove all Poetry"
+                                    : "Administrator"
                                 }
                                 value="remove"
                             />
@@ -180,14 +184,14 @@ const Prompt = () => {
                                         onChange={handleAuthorTypeChange}
                                     >
                                         <BottomNavigationAction
+                                            label="New"
+                                            value="new"
+                                            icon={authorType === "new" ? <IoPersonCircle/> : <IoPersonCircleOutline/>}
+                                        />
+                                        <BottomNavigationAction
                                             label="Select"
                                             value="select"
                                             icon={authorType === "select" ? <IoPersonCircle/> : <IoPersonCircleOutline/>}
-                                        />
-                                        <BottomNavigationAction
-                                            label="Generate"
-                                            value="generate"
-                                            icon={authorType === "generate" ? <IoPersonCircle/> : <IoPersonCircleOutline/>}
                                         />
                                     </BottomNavigation>
                                 </Grid>
@@ -218,6 +222,19 @@ const Prompt = () => {
                                         </FormControl>
                                     </Grid>
                                 }
+                                {(authorType === "new") &&
+                                    <Grid item>
+                                        <TextField
+                                            required
+                                            fullWidth
+                                            label='New author name'
+                                            variant="standard"
+                                            value={newAuthorName}
+                                            onChange={e => setNewAuthorName(e.target.value)}
+                                            inputProps={{ maxLength: 22 }}
+                                        />
+                                    </Grid>
+                                }
                                 {(authorType === "select" && !authors.length) &&
                                     <Grid item>
                                         <Typography
@@ -238,7 +255,7 @@ const Prompt = () => {
                                             variant='caption'
                                             display='inline'
                                         >
-                                            &nbsp;to select yet, are you ready to generate a
+                                            &nbsp;to select yet, create a
                                         </Typography>
                                         <Typography
                                             variant='caption'
@@ -246,13 +263,13 @@ const Prompt = () => {
                                             color='primary'
                                             sx={{fontWeight: "bold"}}
                                         >
-                                            &nbsp;totally new and random author
+                                            &nbsp;new author
                                         </Typography>
                                         <Typography
                                             variant='caption'
                                             display='inline'
                                         >
-                                            ?
+                                            &nbsp;first.
                                         </Typography>
                                     </Grid>
                                 }
@@ -294,7 +311,7 @@ const Prompt = () => {
                                         </Typography>
                                     </Grid>
                                 }
-                                {authorType === "generate" &&
+                                {authorType === "new" &&
                                     <Grid item>
                                         <Typography
                                             variant='caption'
@@ -314,7 +331,7 @@ const Prompt = () => {
                                             variant='caption'
                                             display='inline'
                                         >
-                                            &nbsp;by some
+                                            &nbsp;by this
                                         </Typography>
                                         <Typography
                                             variant='caption'
@@ -322,7 +339,7 @@ const Prompt = () => {
                                             color='primary'
                                             sx={{fontWeight: "bold"}}
                                         >
-                                            &nbsp;totally new and randomly created author
+                                            &nbsp;new author
                                         </Typography>
                                         <Typography
                                             variant='caption'
@@ -332,34 +349,22 @@ const Prompt = () => {
                                         </Typography>
                                     </Grid>
                                 }
-                                {(!!authors.length || authorType === 'generate') &&
-                                    <Grid item>
-                                        <Box py={2}>
-                                            <Button
-                                                fullWidth
-                                                disabled={isLoading || (authorType === "select" && !authorSelect)}
-                                                variant='outlined'
-                                                onClick={handleGeneratePoetry}
-                                            >
-                                                Create some Poetry
-                                            </Button>
-                                        </Box>
-                                    </Grid>
-                                }
-                                {(authorType === "select" && !authors.length) &&
-                                    <Grid item>
-                                        <Box py={2}>
-                                            <Button
-                                                fullWidth
-                                                disabled={isLoading}
-                                                variant='outlined'
-                                                onClick={handleGenerateAuthor}
-                                            >
-                                                Create a new Author
-                                            </Button>
-                                        </Box>
-                                    </Grid>
-                                }
+                                <Grid item>
+                                    <Box py={2}>
+                                        <Button
+                                            fullWidth
+                                            disabled={
+                                                isLoading
+                                                || (authorType === "new" && !newAuthorName)
+                                                || (authorType === "select" && !authorSelect)
+                                            }
+                                            variant='outlined'
+                                            onClick={handleGeneratePoetry}
+                                        >
+                                            Create some Poetry
+                                        </Button>
+                                    </Box>
+                                </Grid>
                             </Grid>
                         </Grid>
                     }
@@ -384,8 +389,21 @@ const Prompt = () => {
                                             variant='caption'
                                             display='inline'
                                         >
-                                            Are you sure that you really want to remove all poems and authors? This action
-                                            cannot be undone!
+                                            Are you sure that you really want to remove all poems and authors? Only
+                                        </Typography>
+                                        <Typography
+                                            variant='caption'
+                                            display='inline'
+                                            color='primary'
+                                            sx={{fontWeight: "bold"}}
+                                        >
+                                            &nbsp;Administrators
+                                        </Typography>
+                                        <Typography
+                                            variant='caption'
+                                            display='inline'
+                                        >
+                                            &nbsp;can perform this action!
                                         </Typography>
                                     </Grid>
                                 }

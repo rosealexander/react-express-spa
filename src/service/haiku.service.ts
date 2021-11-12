@@ -1,14 +1,14 @@
 // filename: haiku.service.ts
 import {Inject, Service} from 'typedi';
 import {InjectRepository} from 'typeorm-typedi-extensions';
-import {Haiku} from '../entity/haiku.entity';
+import {Haiku} from '../model/haiku.entity';
 import {Repository} from "typeorm";
-import {PoetryService} from "./poetry.service";
+import {PoemService} from "./poem.service";
 import {HaikuFactory} from "../factories/haiku.factory";
 
 
 @Service()
-export class HaikuService extends PoetryService {
+export class HaikuService extends PoemService {
 
     public find(id: number): Promise<Haiku> {
         return this.repository.findOne(id);

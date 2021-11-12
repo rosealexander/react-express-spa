@@ -5,6 +5,6 @@ import * as checkJwt from "../middleware/checkJwt";
 const router = Router();
 
 router.get("/all", checkJwt, AuthorController.all);
-router.post("/generate", checkJwt, AuthorController.generate);
+router.post("/create", checkJwt, AuthorController.create);
 
 export default router;

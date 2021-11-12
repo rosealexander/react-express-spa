@@ -30,10 +30,11 @@ const Poem = ({poem = {}}) => {
                             </Grid>
                             <Grid item>
                                 <Typography
-                                    variant='caption'
+                                    variant='body2'
                                     align='center'
+                                    color='primary'
                                 >
-                                    {author}
+                                    by {author}
                                 </Typography>
                             </Grid>
                         </Grid>

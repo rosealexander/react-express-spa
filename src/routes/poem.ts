@@ -1,14 +1,13 @@
 import {PoetryController} from "../controller/poetry.controller";
 import {Router} from "express";
 import * as checkJwt from "../middleware/checkJwt";
+import * as checkAuthorization from "../middleware/checkAuthorization";
 
 const router = Router();
 
-//Get all poems
 router.get("/all", checkJwt, PoetryController.all);
-//Create a new random poem
-router.post("/generate", checkJwt, PoetryController.generate);
-//Remove all Haiku and Limerick
-router.delete("/clear", checkJwt, PoetryController.clear);
+router.post("/haiku", checkJwt, PoetryController.generateHaiku);
+router.post("/limerick", checkJwt, PoetryController.generateLimerick);
+router.delete("/clear", checkJwt, checkAuthorization, PoetryController.clear);
 
 export default router;
