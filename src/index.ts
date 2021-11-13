@@ -10,10 +10,11 @@ import * as cors from "cors";
 import * as process from "process";
 import * as swaggerUi from 'swagger-ui-express';
 import * as swaggerJSDoc from 'swagger-jsdoc';
-import router from "./routes";
+import routes from "./routes";
 
 import { createConnection, useContainer } from 'typeorm';
 import { Container } from 'typeorm-typedi-extensions';
+import {Router} from "express";
 
 useContainer(Container);
 
@@ -39,7 +40,12 @@ createConnection()
         }));
 
         /* register express routes */
+        const router = Router();
         app.use('/', router);
+        for (const route of routes){
+            router[route.request](route.path, route.middleware, route.controller[route.method])
+        };
+
 
         /* setup Swagger */
         const options = {
