@@ -134,7 +134,7 @@ const Prompt = () => {
                                     </Typography>
                                     : "Administrator"
                                 }
-                                value="remove"
+                                value="administrator"
                             />
                         </BottomNavigation>
                     </Grid>
@@ -368,7 +368,7 @@ const Prompt = () => {
                             </Grid>
                         </Grid>
                     }
-                    {promptType === "remove" &&
+                    {promptType === "administrator" &&
                         <Grid item>
                             <Grid
                                 container
@@ -376,13 +376,32 @@ const Prompt = () => {
                                 spacing={2}
                             >
                                 <Grid item>
-                                    <Typography
-                                        variant='caption'
-                                        color='textSecondary'
-                                    >
-                                    </Typography>
                                     <Divider />
                                 </Grid>
+                                {!poetry.length &&
+                                    <Grid item>
+                                        <Typography
+                                            variant='caption'
+                                            display='inline'
+                                        >
+                                            There is nothing to remove, add some
+                                        </Typography>
+                                        <Typography
+                                            variant='caption'
+                                            display='inline'
+                                            color='primary'
+                                            sx={{fontWeight: "bold"}}
+                                        >
+                                            &nbsp;Poetry
+                                        </Typography>
+                                        <Typography
+                                            variant='caption'
+                                            display='inline'
+                                        >
+                                            &nbsp;before trying to remove it.
+                                        </Typography>
+                                    </Grid>
+                                }
                                 {!!poetry.length &&
                                     <Grid item>
                                         <Typography
