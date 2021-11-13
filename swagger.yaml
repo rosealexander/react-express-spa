@@ -34,12 +34,20 @@ paths:
         '404':
           description: Not found
 
-# [POST] authors/generate
-  /author/generate:
+# [POST] author/create
+  /author/create:
     post:
       security:
         - bearerAuth: [ ]
       summary: Add Author
+      parameters:
+        - in: body
+          name: name
+          schema:
+            type: string
+          required: true
+          description: Author name
+          example: '{"name": "Test Author"}'
       responses:
         '201':
           description: Author is created
@@ -54,8 +62,6 @@ paths:
                   name:
                     type: string
                     description: The author name.
-        '400':
-          description: Bad request
         '500':
           description: Server error
 
@@ -92,14 +98,14 @@ paths:
       security:
         - bearerAuth: [ ]
       summary: Generate new Haiku
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                authorId:
-                  type: string
+      parameters:
+        - in: body
+          name: authorId
+          schema:
+            type: string
+          required: true
+          description: Author ID
+          example: '{"authorId": 1}'
       responses:
         '201':
           description: A Poem is created
@@ -117,8 +123,6 @@ paths:
                   title:
                     type: string
                     description: Poem title.
-        '400':
-          description: Bad request
         '500':
           description: Server error
 
@@ -128,14 +132,14 @@ paths:
       security:
         - bearerAuth: [ ]
       summary: Generate new Limerick
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                authorId:
-                  type: string
+      parameters:
+        - in: body
+          name: authorId
+          schema:
+            type: string
+          required: true
+          description: Author ID
+          example: '{"authorId": 1}'
       responses:
         '201':
           description: A Poem is created
@@ -153,8 +157,6 @@ paths:
                   title:
                     type: string
                     description: Poem title.
-        '400':
-          description: Bad request
         '500':
           description: Server error
 
@@ -164,10 +166,11 @@ paths:
       security:
         - bearerAuth: [ ]
       summary: Clear all Poems and Authors, must be 'Administrator' role
-      '200':
-        description: Ok
-      '500':
-        description: Server error
+      responses:
+        '200':
+          description: All Poems and Authors have been removed
+        '500':
+          description: Server error
 
 schemes:
  - https
