@@ -14,8 +14,8 @@ export class PoetryController {
             const poemArray = poems.map( poem => {
                 // @ts-ignore
                 const {title, author, firstLine, secondLine, thirdLine, fourthLine, fifthLine} = poem
-                const {name} = author
                 const content = [firstLine, secondLine, thirdLine, fourthLine, fifthLine]
+                const name = author?.name || ""
                 return new PoemViewModel(name, content, title)
             })
             res.send(poemArray);
