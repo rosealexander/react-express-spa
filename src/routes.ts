@@ -1,17 +1,7 @@
-import { Router } from "express";
 import {AuthorController} from "./controller/author.controller";
 import {PoetryController} from "./controller/poetry.controller";
 import * as checkJwt from "./middleware/checkJwt";
 import * as checkAuthorization from "./middleware/checkAuthorization";
-
-const router = Router();
-
-// router.get("/author/all", checkJwt, AuthorController.all);
-// router.post("/author/create", checkJwt, AuthorController.create);
-// router.get("/poetry/all", checkJwt, PoetryController.all);
-// router.post("/poetry/haiku", checkJwt, PoetryController.generateHaiku);
-// router.post("/poetry/limerick", checkJwt, PoetryController.generateLimerick);
-// router.delete("/poetry/clear", checkJwt, checkAuthorization, PoetryController.clear);
 
 const routes = [
     {
@@ -58,9 +48,4 @@ const routes = [
     }
 ]
 
-for (const route of routes){
-    router[route.request](route.path, route.middleware, route.controller[route.method])
-}
-
-
-export default router;
+export default routes;
