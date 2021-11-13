@@ -9,22 +9,16 @@ module.exports = {
    "synchronize": true,
    "logging": false,
    "entities": [
-      process.env.NODE_ENV === "production" ? "build/entity/**/*.js" : "src/entity/**/*.ts"
+      process.env.NODE_ENV === "production" ? "build/model/**/*{.ts,.js}" : "src/model/**/*{.ts,.js}"
    ],
    "migrations": [
-      "src/migration/**/*.ts"
+      "src/migration/**/*{.ts,.js}"
    ],
    "subscribers": [
-      "src/subscriber/**/*.ts"
-   ],
-   "seeds": [
-      "src/seeds/**/*.ts"
-   ],
-   "factories": [
-      "src/factories/**/*.ts"
+      "src/subscriber/**/*{.ts,.js}"
    ],
    "cli": {
-      "entitiesDir": "src/entity",
+      "entitiesDir": "src/model",
       "migrationsDir": "src/migration",
       "subscribersDir": "src/subscriber"
    }

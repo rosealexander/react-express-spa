@@ -10,7 +10,8 @@
       "heroku-postbuild": "cd src/view && npm install && npm run build && mkdir ../../build/view && cp -r build ../../build/view/build",
       "postinstall": "tsc",
       "remove-build": "rm -r build && cd src/view && rm -r build",
-      "start": "NODE_ENV=production node build/index.js"
+      "start": "NODE_ENV=production node build/index.js",
+      "typeorm:cli": "ts-node ./node_modules/typeorm/cli -f ./ormconfig.js"
    },
    "dependencies": {
       "body-parser": "^1.18.1",
