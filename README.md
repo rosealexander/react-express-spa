@@ -62,7 +62,7 @@ and our relational database.
 * [Swagger-UI](https://github.com/swagger-api/swagger-ui) has been configured and may be accessed at the following url 
   * Swagger: https://react-express-spa.herokuapp.com/swagger
   
-## build with
+## built with
 * [Auth0](https://github.com/auth0/nextjs-auth0) - External identity provider
 * [Express](https://github.com/expressjs/express) - Web framework for Node
 * [Express-jwt](https://github.com/auth0/express-jwt) - Express middleware for validating JWTs
