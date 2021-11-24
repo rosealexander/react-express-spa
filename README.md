@@ -1,6 +1,6 @@
 <!-- TITLE -->
 # [React Express SPA](https://react-express-spa.herokuapp.com) 
-#### [View the Demo >](https://react-express-spa.herokuapp.com)
+#### [View the application Front-end >](https://react-express-spa.herokuapp.com)
 
 <!-- Objective -->
 ## objective
