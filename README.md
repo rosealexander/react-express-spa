@@ -45,6 +45,7 @@ The goal of this application has been to successfully demonstrate the following 
 ### MVC on the server with routing
 * Model - [/src/model](./src/model)
 * View - [/src/view](./src/view)
+* View Model = [/src/viewmodel](./src/viewmodel)
 * Controller - [/src/controller](./src/controller)
   * Routes - [/src/routes.ts](./src/routes.ts)
 
